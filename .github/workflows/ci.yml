@@ -7,6 +7,7 @@ on:
     branches: [main]
 
 jobs:
+  # ジョブ1: テスト
   test:
     runs-on: ubuntu-latest
 
@@ -45,5 +46,37 @@ jobs:
       - name: Run RSpec
         run: bundle exec rspec
 
+  # ジョブ2: コードスタイル
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
       - name: Run Rubocop
         run: bundle exec rubocop
+
+  # ジョブ3: セキュリティ
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Brakeman（Railsの静的セキュリティ解析）
+        run: bundle exec brakeman --no-pager
+
+      - name: bundler-audit（gem脆弱性チェック）
+        run: |
+          gem install bundler-audit
+          bundle-audit check --update
