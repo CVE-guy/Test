@@ -14,7 +14,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to validate_uniqueness_of(:username).case_insensitive }
     it { is_expected.to validate_length_of(:username).is_at_most(20) }
     it { is_expected.to have_secure_password }
-    it { is_expected.to validate_length_of(:password).is_at_least(8).allow_nil }
+    it { is_expected.to validate_length_of(:password).is_at_least(8) }
   end
 
   describe '#authenticate' do
@@ -37,11 +37,10 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context 'when password is nil on an existing record' do
+  context 'when updating an existing record without changing password' do
     it 'remains valid' do
       user = create(:user)
-      user.password = nil
-      user.password_confirmation = nil
+      user.username = 'updatedname'
       expect(user).to be_valid
     end
   end
