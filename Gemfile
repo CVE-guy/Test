@@ -60,7 +60,7 @@ group :development, :test do
   gem "factory_bot_rails"
 
   # Matchers for RSpec
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 7.0"
 
   # RSpec cop for Rubocop
   gem "rubocop-rspec", require: false
