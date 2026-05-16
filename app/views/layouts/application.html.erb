@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Test" %></title>
+    <title><%= content_for(:title) || "SimpleTwitter" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Test">
+    <meta name="application-name" content="SimpleTwitter">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -24,6 +24,30 @@
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <%= link_to "SimpleTwitter", root_path %>
+      </div>
+      <div class="navbar-menu">
+        <% if logged_in? %>
+          <span class="navbar-item"><%= current_user.username %></span>
+          <%= button_to "ログアウト", logout_path, method: :delete, class: "btn btn-secondary" %>
+        <% else %>
+          <%= link_to "ログイン", login_path, class: "navbar-item" %>
+          <%= link_to "新規登録", signup_path, class: "navbar-item btn btn-primary" %>
+        <% end %>
+      </div>
+    </nav>
+
+    <main class="container">
+      <% if flash[:notice] %>
+        <div class="alert alert-success"><%= flash[:notice] %></div>
+      <% end %>
+      <% if flash[:alert] %>
+        <div class="alert alert-danger"><%= flash[:alert] %></div>
+      <% end %>
+
+      <%= yield %>
+    </main>
   </body>
 </html>
